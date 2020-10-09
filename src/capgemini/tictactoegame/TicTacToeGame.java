@@ -14,55 +14,17 @@ public class TicTacToeGame {
 	static char[] board;
 
 	/**
-	 * uc12 
-	 * args
+	 * uc13 args
 	 */
 	public static void main(String[] args) {
-		board = createBoard();
-		int turnsNo = 1;
-		char playerChoice = selectLetter();
-		char computerChoice;
-		char playingSide;
-		if (playerChoice == 'X')
-			computerChoice = 'O';
-		else
-			computerChoice = 'X';
-		String firstMove = coinTossToDecideWhoGoesFirst();
-		if (firstMove == "PLAYER")
-			playingSide = playerChoice;
-		else
-			playingSide = computerChoice;
-		System.out.println("Coin Toss Result is : " + firstMove + " begins the game.");
-		while (turnsNo <= 9) {
-			turnsNo++;
-			if (playingSide != computerChoice) {
-				int index = chooseIndex();
-				desiredMove(board, index, playerChoice);
-			} else {
-				if (checkIfPlayerCouldWinAndGetIndex(board, computerChoice) != 0)
-					desiredMove(board, checkIfPlayerCouldWinAndGetIndex(board, computerChoice), computerChoice);
-				else if (computerPlayToBlockWin(board, playerChoice) != 0) {
-					desiredMove(board, computerPlayToBlockWin(board, playerChoice), computerChoice);
-				} else {
-					int index = computerMoveForOneOfAvailableCorners(board);
-					if (index == 0)
-						index = computerSubsequentChoices(board);
-					desiredMove(board, index, computerChoice);
-				}
-			}
-			showBoard();
-			if (winnerCheck(board, playingSide) == "WIN") {
-				if (playingSide == computerChoice)
-					System.out.println("Computer is Winner");
-				else
-					System.out.println("Player is Winner");
-				break;
-			} else
-				System.out.println(winnerCheck(board, playingSide));
-			if (playingSide == 'X')
-				playingSide = 'O';
+		Scanner sb = new Scanner(System.in);
+		while (true) {
+			System.out.println("Do you want to play another Game?(Y/N)");
+			char answer = sb.next().charAt(0);
+			if (answer == 'Y')
+				Game();
 			else
-				playingSide = 'X';
+				System.out.println("Thank you for Playing");
 		}
 	}
 
@@ -169,7 +131,7 @@ public class TicTacToeGame {
 			if (board[i] != ' ')
 				counter++;
 		}
-		if (counter == 8)
+		if (counter == 9)
 			return "TIE";
 		else
 			return "TURN";
@@ -252,5 +214,56 @@ public class TicTacToeGame {
 			}
 		}
 		return index;
+	}
+
+	/**
+	 * uc12
+	 */
+	public static void Game() {
+		board = createBoard();
+		int turnsNo = 1;
+		char playerChoice = selectLetter();
+		char computerChoice;
+		char playingSide;
+		if (playerChoice == 'X')
+			computerChoice = 'O';
+		else
+			computerChoice = 'X';
+		String firstMove = coinTossToDecideWhoGoesFirst();
+		if (firstMove == "PLAYER")
+			playingSide = playerChoice;
+		else
+			playingSide = computerChoice;
+		System.out.println("Coin Toss Result is : " + firstMove + " begins the game.");
+		while (turnsNo <= 9) {
+			turnsNo++;
+			if (playingSide != computerChoice) {
+				int index = chooseIndex();
+				desiredMove(board, index, playerChoice);
+			} else {
+				if (checkIfPlayerCouldWinAndGetIndex(board, computerChoice) != 0)
+					desiredMove(board, checkIfPlayerCouldWinAndGetIndex(board, computerChoice), computerChoice);
+				else if (computerPlayToBlockWin(board, playerChoice) != 0) {
+					desiredMove(board, computerPlayToBlockWin(board, playerChoice), computerChoice);
+				} else {
+					int index = computerMoveForOneOfAvailableCorners(board);
+					if (index == 0)
+						index = computerSubsequentChoices(board);
+					desiredMove(board, index, computerChoice);
+				}
+			}
+			showBoard();
+			if (winnerCheck(board, playingSide) == "WIN") {
+				if (playingSide == computerChoice)
+					System.out.println("Computer is Winner");
+				else
+					System.out.println("Player is Winner");
+			} else
+				System.out.println(winnerCheck(board, playingSide));
+			if (playingSide == 'X')
+				playingSide = 'O';
+			else
+				playingSide = 'X';
+		}
 	}
 }
