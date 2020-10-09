@@ -195,4 +195,27 @@ public class TicTacToeGame {
 		return index;
 	}
 
+	/**
+	 * uc11
+	 * @board
+	 * @return
+	 */
+	public static int computerSubsequentChoices(char board[])
+	{
+		int index=4;
+		if(board[index]==' ')
+			index=4;
+		else
+		{
+			for(int i=1;i<=8;i=i+2)
+			{
+				if(board[i]==' ')
+					{
+					index=i;
+					break;
+					}
+			}
+		}
+		return index;
+	}
 }
