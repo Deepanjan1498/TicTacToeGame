@@ -2,11 +2,18 @@ package capgemini.tictactoegame;
 
 import java.util.Scanner;
 
+/**
+ * @author Mentalist
+ *
+ */
 public class TicTacToeGame {
+	static char[] board;
+
 	public static void main(String[] args) {
-		char[] board = createBoard();
+		board = createBoard();
 		selectLetter();
-		showBoard(board);
+		showBoard();
+		chooseIndex();
 
 	}
 
@@ -26,7 +33,7 @@ public class TicTacToeGame {
 	/**
 	 * uc2
 	 */
-	public static void selectLetter() {
+	public static char selectLetter() {
 		System.out.println("Enter  the letter X or O:");
 		Scanner sc = new Scanner(System.in);
 		char choice = sc.next().charAt(0);
@@ -34,13 +41,13 @@ public class TicTacToeGame {
 			System.out.println("Player has choosen " + choice + " and Computer has to choose X");
 		else
 			System.out.println("Player has choosen " + choice + " and Computer has to choose O");
-
+		return choice;
 	}
 
 	/**
 	 * uc3
 	 */
-	public static void showBoard(char[] board) {
+	public static void showBoard() {
 		System.out.println("/---|---|---\\");
 		System.out.println("| " + board[0] + " | " + board[1] + " | " + board[2] + " |");
 		System.out.println("|-----------|");
@@ -50,5 +57,23 @@ public class TicTacToeGame {
 		System.out.println("/---|---|---\\");
 
 	}
+
+	/**
+	 * uc4
+	 * @return
+	 */
+	public static int chooseIndex() {
+
+		System.out.println("Enter the location you want to move to :");
+		Scanner s = new Scanner(System.in);
+		int index = s.nextInt();
+		if (board[index] == ' ')
+			System.out.println("Index is free");
+		else
+			System.out.println("Choose another index");
+		return index;
+	}
+	
+	
 
 }
