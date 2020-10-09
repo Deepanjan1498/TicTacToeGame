@@ -7,11 +7,17 @@ import java.util.Scanner;
  *
  */
 public class TicTacToeGame {
+	static final int HEADS = 1;
+	static final int TAILS = 0;
+	static final String PLAYER = "Player starts first.";
+	static final String COMPUTER = "Computer starts first";
 	static char[] board;
 
 	public static void main(String[] args) {
 		board = createBoard();
 		char playerChoice = selectLetter();
+		showBoard();
+		System.out.println("Coin Toss Result is " + coinTossToDecideWhoGoesFirst());
 		int indexToMove = chooseIndex();
 		desiredMove(indexToMove, playerChoice);
 		showBoard();
@@ -76,9 +82,7 @@ public class TicTacToeGame {
 	}
 
 	/**
-	 * uc5
-	 * @ location
-	 * @ playerMove
+	 * uc5 @ location @ playerMove
 	 */
 	public static void desiredMove(int location, char playerMove) {
 		if (board[location] == ' ')
@@ -86,6 +90,19 @@ public class TicTacToeGame {
 		else
 			System.out.println("Index is not free.Choose another index for move");
 
+	}
+
+	/**
+	 * uc6
+	 * 
+	 * @return
+	 */
+	public static String coinTossToDecideWhoGoesFirst() {
+		int toss = (int) (Math.random() * 10) % 2;
+		if (toss == TAILS)
+			return PLAYER;
+		else
+			return COMPUTER;
 	}
 
 }
