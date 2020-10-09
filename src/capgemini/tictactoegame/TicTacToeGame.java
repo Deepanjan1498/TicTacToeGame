@@ -14,7 +14,7 @@ public class TicTacToeGame {
 	static char[] board;
 
 	public static void main(String[] args) {
-		board =createBoard();
+		board = createBoard();
 		char playerChoice = selectLetter();
 		showBoard();
 		String firstMove = coinTossToDecideWhoGoesFirst();
@@ -23,7 +23,7 @@ public class TicTacToeGame {
 			int indexToMove = chooseIndex();
 			desiredMove(indexToMove, playerChoice);
 		}
-		System.out.println(checkIfPlayerCouldWin(board, playerChoice));
+		System.out.println(checkIfPlayerCouldWinAndGetIndex(board, playerChoice));
 		System.out.println("Checking Winner after Every move:" + winnerCheck(board, playerChoice));
 		showBoard();
 	}
@@ -142,7 +142,7 @@ public class TicTacToeGame {
 	 * 
 	 * @return
 	 */
-	public static int checkIfPlayerCouldWin(char board[], char playerChoice) {
+	public static int checkIfPlayerCouldWinAndGetIndex(char board[], char playerChoice) {
 		int index;
 		char secondBoard[] = new char[10];
 		for (int i = 0; i < 10; i++) {
@@ -159,9 +159,7 @@ public class TicTacToeGame {
 	}
 
 	/**
-	 * uc9 
-	 * board 
-	 * opponentChoice
+	 * uc9 board opponentChoice
 	 * 
 	 * @return
 	 */
@@ -180,6 +178,21 @@ public class TicTacToeGame {
 			}
 		}
 		return 0;
+	}
+
+	/**
+	 * uc10 board
+	 * 
+	 * @return
+	 */
+	public static int computerMoveForOneOfAvailableCorners(char board[]) {
+		int index = 0;
+		int cornerIndex[] = { 0, 2, 6, 8 };
+		for (int i = 0; i < 4; i++) {
+			if (board[cornerIndex[i]] == ' ')
+				index = cornerIndex[i];
+		}
+		return index;
 	}
 
 }
