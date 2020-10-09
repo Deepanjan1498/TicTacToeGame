@@ -14,12 +14,12 @@ public class TicTacToeGame {
 	static char[] board;
 
 	public static void main(String[] args) {
-		board = createBoard();
+		board =createBoard();
 		char playerChoice = selectLetter();
 		showBoard();
 		String firstMove = coinTossToDecideWhoGoesFirst();
 		System.out.println("Coin Toss Result is : " + firstMove);
-		if (firstMove == "Player") {
+		if (firstMove == "PLAYER") {
 			int indexToMove = chooseIndex();
 			desiredMove(indexToMove, playerChoice);
 		}
@@ -115,7 +115,9 @@ public class TicTacToeGame {
 	 * 
 	 * @return
 	 */
-	public static boolean winnerCheck(char board[], char playerChoice) {
+	public static String winnerCheck(char board[], char playerChoice) {
+		int i = 0;
+		int counter = 0;
 		if ((board[0] == playerChoice && board[1] == playerChoice && board[2] == playerChoice)
 				|| (board[3] == playerChoice && board[4] == playerChoice && board[5] == playerChoice)
 				|| (board[6] == playerChoice && board[7] == playerChoice && board[8] == playerChoice)
@@ -124,22 +126,60 @@ public class TicTacToeGame {
 				|| (board[2] == playerChoice && board[5] == playerChoice && board[8] == playerChoice)
 				|| (board[0] == playerChoice && board[4] == playerChoice && board[8] == playerChoice)
 				|| (board[2] == playerChoice && board[4] == playerChoice && board[6] == playerChoice))
-			return true;
+			return "WIN";
+		for (i = 0; i < 10; i++) {
+			if (board[i] != ' ')
+				counter++;
+		}
+		if (counter == 8)
+			return "TIE";
 		else
-			return false;
+			return "TURN";
 	}
 
 	/**
-	 * uc8 
-	 * board 
-	 * playerChoice
+	 * uc8 board playerChoice
+	 * 
 	 * @return
 	 */
-	public static boolean checkIfPlayerCouldWin(char board[], char playerChoice) {
+	public static int checkIfPlayerCouldWin(char board[], char playerChoice) {
+		int index;
 		char secondBoard[] = new char[10];
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++) {
 			secondBoard[i] = board[i];
-		return winnerCheck(secondBoard, playerChoice);
+			if (secondBoard[i] == ' ') {
+				secondBoard[i] = playerChoice;
+				if (winnerCheck(secondBoard, playerChoice).matches("WIN")) {
+					index = i;
+					return index;
+				}
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * uc9 
+	 * board 
+	 * opponentChoice
+	 * 
+	 * @return
+	 */
+	public static int opponentPlayToBlockWin(char board[], char opponentChoice) {
+		int index = 0;
+		char secondBoard[] = new char[10];
+		for (int i = 0; i < 10; i++) {
+			secondBoard[i] = board[i];
+			if (secondBoard[i] == ' ') {
+				secondBoard[i] = opponentChoice;
+				if (winnerCheck(secondBoard, opponentChoice).equals("WIN")) {
+					index = i;
+					return index;
+				} else
+					secondBoard[i] = ' ';
+			}
+		}
+		return 0;
 	}
 
 }
