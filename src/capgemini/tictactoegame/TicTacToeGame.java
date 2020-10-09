@@ -17,11 +17,14 @@ public class TicTacToeGame {
 		board = createBoard();
 		char playerChoice = selectLetter();
 		showBoard();
-		System.out.println("Coin Toss Result is " + coinTossToDecideWhoGoesFirst());
-		int indexToMove = chooseIndex();
-		desiredMove(indexToMove, playerChoice);
-		showBoard();
-		System.out.println("Checking Winner after Every move:" + winnerCheck(playerChoice));
+		String firstMove = coinTossToDecideWhoGoesFirst();
+		System.out.println("Coin Toss Result is : " + firstMove);
+		if (firstMove == "Player") {
+			int indexToMove = chooseIndex();
+			desiredMove(indexToMove, playerChoice);
+		}
+		System.out.println(checkIfPlayerCouldWin(board, playerChoice));
+		System.out.println("Checking Winner after Every move:" + winnerCheck(board, playerChoice));
 		showBoard();
 	}
 
@@ -108,11 +111,11 @@ public class TicTacToeGame {
 	}
 
 	/**
-	 * uc7 
-	 * playerChoice
+	 * uc7 playerChoice
+	 * 
 	 * @return
 	 */
-	public static boolean winnerCheck(char playerChoice) {
+	public static boolean winnerCheck(char board[], char playerChoice) {
 		if ((board[0] == playerChoice && board[1] == playerChoice && board[2] == playerChoice)
 				|| (board[3] == playerChoice && board[4] == playerChoice && board[5] == playerChoice)
 				|| (board[6] == playerChoice && board[7] == playerChoice && board[8] == playerChoice)
@@ -124,6 +127,19 @@ public class TicTacToeGame {
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * uc8 
+	 * board 
+	 * playerChoice
+	 * @return
+	 */
+	public static boolean checkIfPlayerCouldWin(char board[], char playerChoice) {
+		char secondBoard[] = new char[10];
+		for (int i = 0; i < 10; i++)
+			secondBoard[i] = board[i];
+		return winnerCheck(secondBoard, playerChoice);
 	}
 
 }
