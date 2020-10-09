@@ -13,19 +13,57 @@ public class TicTacToeGame {
 	static final String COMPUTER = "Computer starts first";
 	static char[] board;
 
+	/**
+	 * uc12 
+	 * args
+	 */
 	public static void main(String[] args) {
 		board = createBoard();
+		int turnsNo = 1;
 		char playerChoice = selectLetter();
-		showBoard();
+		char computerChoice;
+		char playingSide;
+		if (playerChoice == 'X')
+			computerChoice = 'O';
+		else
+			computerChoice = 'X';
 		String firstMove = coinTossToDecideWhoGoesFirst();
-		System.out.println("Coin Toss Result is : " + firstMove);
-		if (firstMove == "PLAYER") {
-			int indexToMove = chooseIndex();
-			desiredMove(indexToMove, playerChoice);
+		if (firstMove == "PLAYER")
+			playingSide = playerChoice;
+		else
+			playingSide = computerChoice;
+		System.out.println("Coin Toss Result is : " + firstMove + " begins the game.");
+		while (turnsNo <= 9) {
+			turnsNo++;
+			if (playingSide != computerChoice) {
+				int index = chooseIndex();
+				desiredMove(board, index, playerChoice);
+			} else {
+				if (checkIfPlayerCouldWinAndGetIndex(board, computerChoice) != 0)
+					desiredMove(board, checkIfPlayerCouldWinAndGetIndex(board, computerChoice), computerChoice);
+				else if (computerPlayToBlockWin(board, playerChoice) != 0) {
+					desiredMove(board, computerPlayToBlockWin(board, playerChoice), computerChoice);
+				} else {
+					int index = computerMoveForOneOfAvailableCorners(board);
+					if (index == 0)
+						index = computerSubsequentChoices(board);
+					desiredMove(board, index, computerChoice);
+				}
+			}
+			showBoard();
+			if (winnerCheck(board, playingSide) == "WIN") {
+				if (playingSide == computerChoice)
+					System.out.println("Computer is Winner");
+				else
+					System.out.println("Player is Winner");
+				break;
+			} else
+				System.out.println(winnerCheck(board, playingSide));
+			if (playingSide == 'X')
+				playingSide = 'O';
+			else
+				playingSide = 'X';
 		}
-		System.out.println(checkIfPlayerCouldWinAndGetIndex(board, playerChoice));
-		System.out.println("Checking Winner after Every move:" + winnerCheck(board, playerChoice));
-		showBoard();
 	}
 
 	/**
@@ -89,7 +127,7 @@ public class TicTacToeGame {
 	/**
 	 * uc5 @ location @ playerMove
 	 */
-	public static void desiredMove(int location, char playerMove) {
+	public static void desiredMove(char[] board, int location, char playerMove) {
 		if (board[location] == ' ')
 			board[location] = playerMove;
 		else
@@ -163,7 +201,7 @@ public class TicTacToeGame {
 	 * 
 	 * @return
 	 */
-	public static int opponentPlayToBlockWin(char board[], char opponentChoice) {
+	public static int computerPlayToBlockWin(char board[], char opponentChoice) {
 		int index = 0;
 		char secondBoard[] = new char[10];
 		for (int i = 0; i < 10; i++) {
@@ -197,23 +235,20 @@ public class TicTacToeGame {
 
 	/**
 	 * uc11
+	 * 
 	 * @board
 	 * @return
 	 */
-	public static int computerSubsequentChoices(char board[])
-	{
-		int index=4;
-		if(board[index]==' ')
-			index=4;
-		else
-		{
-			for(int i=1;i<=8;i=i+2)
-			{
-				if(board[i]==' ')
-					{
-					index=i;
+	public static int computerSubsequentChoices(char board[]) {
+		int index = 4;
+		if (board[index] == ' ')
+			index = 4;
+		else {
+			for (int i = 1; i <= 8; i = i + 2) {
+				if (board[i] == ' ') {
+					index = i;
 					break;
-					}
+				}
 			}
 		}
 		return index;
