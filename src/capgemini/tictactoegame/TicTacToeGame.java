@@ -21,6 +21,8 @@ public class TicTacToeGame {
 		int indexToMove = chooseIndex();
 		desiredMove(indexToMove, playerChoice);
 		showBoard();
+		System.out.println("Checking Winner after Every move:" + winnerCheck(playerChoice));
+		showBoard();
 	}
 
 	/**
@@ -103,6 +105,25 @@ public class TicTacToeGame {
 			return PLAYER;
 		else
 			return COMPUTER;
+	}
+
+	/**
+	 * uc7 
+	 * playerChoice
+	 * @return
+	 */
+	public static boolean winnerCheck(char playerChoice) {
+		if ((board[0] == playerChoice && board[1] == playerChoice && board[2] == playerChoice)
+				|| (board[3] == playerChoice && board[4] == playerChoice && board[5] == playerChoice)
+				|| (board[6] == playerChoice && board[7] == playerChoice && board[8] == playerChoice)
+				|| (board[0] == playerChoice && board[3] == playerChoice && board[6] == playerChoice)
+				|| (board[1] == playerChoice && board[4] == playerChoice && board[7] == playerChoice)
+				|| (board[2] == playerChoice && board[5] == playerChoice && board[8] == playerChoice)
+				|| (board[0] == playerChoice && board[4] == playerChoice && board[8] == playerChoice)
+				|| (board[2] == playerChoice && board[4] == playerChoice && board[6] == playerChoice))
+			return true;
+		else
+			return false;
 	}
 
 }
