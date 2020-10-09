@@ -11,10 +11,10 @@ public class TicTacToeGame {
 
 	public static void main(String[] args) {
 		board = createBoard();
-		selectLetter();
+		char playerChoice = selectLetter();
+		int indexToMove = chooseIndex();
+		desiredMove(indexToMove, playerChoice);
 		showBoard();
-		chooseIndex();
-
 	}
 
 	/**
@@ -60,6 +60,7 @@ public class TicTacToeGame {
 
 	/**
 	 * uc4
+	 * 
 	 * @return
 	 */
 	public static int chooseIndex() {
@@ -73,7 +74,18 @@ public class TicTacToeGame {
 			System.out.println("Choose another index");
 		return index;
 	}
-	
-	
+
+	/**
+	 * uc5
+	 * @ location
+	 * @ playerMove
+	 */
+	public static void desiredMove(int location, char playerMove) {
+		if (board[location] == ' ')
+			board[location] = playerMove;
+		else
+			System.out.println("Index is not free.Choose another index for move");
+
+	}
 
 }
